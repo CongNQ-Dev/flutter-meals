@@ -230,6 +230,12 @@
       "languageVersion": "3.0"
     },
     {
+      "name": "transparent_image",
+      "rootUri": "file:///Users/cong.nguyen/.pub-cache/hosted/pub.dev/transparent_image-2.0.1",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
       "name": "typed_data",
       "rootUri": "file:///Users/cong.nguyen/.pub-cache/hosted/pub.dev/typed_data-1.3.2",
       "packageUri": "lib/",
@@ -272,7 +278,7 @@
       "languageVersion": "3.3"
     }
   ],
-  "generated": "2024-01-18T11:35:39.006734Z",
+  "generated": "2024-01-28T16:14:40.451861Z",
   "generator": "pub",
   "generatorVersion": "3.3.0-261.0.dev"
 }
