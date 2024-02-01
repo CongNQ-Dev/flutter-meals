@@ -8,13 +8,10 @@ class MealsScreen extends StatelessWidget {
   const MealsScreen({super.key, required this.title, required this.meals});
   final String title;
   final List<Meal> meals;
-  void _selectedMealItem(BuildContext context, Meal meal) {
-    final Meal filteredMeal =
-        dummyMeals.firstWhere((item) => item.id.contains(meal.id));
-
+  void _selectedMeal(BuildContext context, Meal meal) {
     Navigator.of(context).push(MaterialPageRoute(
         //Navigator.push(context,route)
-        builder: (ctx) => MealDetailsScreen(meal: filteredMeal)));
+        builder: (ctx) => MealDetailsScreen(meal: meal)));
   }
 
   @override
@@ -23,8 +20,8 @@ class MealsScreen extends StatelessWidget {
         itemCount: meals.length,
         itemBuilder: ((context, index) => MealItem(
               meal: meals[index],
-              onSelectMealItem: () {
-                _selectedMealItem(context, meals[index]);
+              onSelectMeal: (meal) {
+                _selectedMeal(context, meal);
               },
             )));
     if (meals.isEmpty) {
