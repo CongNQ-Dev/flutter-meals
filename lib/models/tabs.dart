@@ -4,8 +4,7 @@ import 'package:meals/screens/categories.dart';
 import 'package:meals/screens/meals.dart';
 
 class TabsScreen extends StatefulWidget {
-  const TabsScreen({super.key, required this.onToggleFavorite});
-  final void Function(Meal meal) onToggleFavorite;
+  const TabsScreen({super.key});
 
   @override
   State<TabsScreen> createState() => _TabsScreenState();
