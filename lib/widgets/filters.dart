@@ -13,8 +13,8 @@ class FiltersScreen extends StatefulWidget {
 
 var _glutenFreeFilterSet = false;
 var _lactoseFreeFilterSet = false;
-var _vegetarianreeFilterSet = false;
-var _veganFreeFilterSet = false;
+var _vegetarianFilterSet = false;
+var _veganFilterSet = false;
 
 class _FiltersScreenState extends State<FiltersScreen> {
   @override
@@ -32,13 +32,15 @@ class _FiltersScreenState extends State<FiltersScreen> {
       //     }
       //   },
       // ),
-      body: WillPopScope(
-        onWillPop: () {
+      body: PopScope(
+        canPop: false,
+        onPopInvoked: (bool didPop) {
+          if (didPop) return;
           Navigator.of(context).pop({
             Filter.glutenFree: _glutenFreeFilterSet,
             Filter.lactoseFree: _lactoseFreeFilterSet,
-            Filter.vegetarian: _vegetarianreeFilterSet,
-            Filter.vegan: _veganFreeFilterSet,
+            Filter.vegetarian: _vegetarianFilterSet,
+            Filter.vegan: _veganFilterSet,
           });
         },
         child: Column(
@@ -80,10 +82,10 @@ class _FiltersScreenState extends State<FiltersScreen> {
               contentPadding: const EdgeInsets.only(left: 34, right: 22),
             ),
             SwitchListTile(
-              value: _vegetarianreeFilterSet,
+              value: _vegetarianFilterSet,
               onChanged: (isChecked) {
                 setState(() {
-                  _vegetarianreeFilterSet = isChecked;
+                  _vegetarianFilterSet = isChecked;
                 });
               },
               title: Text(
@@ -98,10 +100,10 @@ class _FiltersScreenState extends State<FiltersScreen> {
               contentPadding: const EdgeInsets.only(left: 34, right: 22),
             ),
             SwitchListTile(
-              value: _veganFreeFilterSet,
+              value: _veganFilterSet,
               onChanged: (isChecked) {
                 setState(() {
-                  _veganFreeFilterSet = isChecked;
+                  _veganFilterSet = isChecked;
                 });
               },
               title: Text(
