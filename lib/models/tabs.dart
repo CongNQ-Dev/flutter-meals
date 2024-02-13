@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:meals/data/dummy_data.dart';
 import 'package:meals/models/meal.dart';
+import 'package:meals/providers/favorites_provider.dart';
 import 'package:meals/providers/meals_provider.dart';
 import 'package:meals/screens/categories.dart';
 import 'package:meals/screens/meals.dart';
@@ -27,20 +28,20 @@ class TabsScreen extends ConsumerStatefulWidget {
 class _TabsScreenState extends ConsumerState<TabsScreen> {
   int _selectedPageIndex = 0;
   bool isFavorite = false;
-  final List<Meal> _favoriteMeals = [];
+  // final List<Meal> _favoriteMeals = [];
   Map<Filter, bool> _selectedFilters = KInitialFilters;
-  void _toggleMealFavoriteStatus(Meal meal) {
-    final isExisting = _favoriteMeals.contains(meal);
-    setState(() {
-      if (isExisting) {
-        _favoriteMeals.remove(meal);
-        isFavorite = false;
-      } else {
-        _favoriteMeals.add(meal);
-        isFavorite = true;
-      }
-    });
-  }
+  // void _toggleMealFavoriteStatus(Meal meal) {
+  //   final isExisting = _favoriteMeals.contains(meal);
+  //   setState(() {
+  //     if (isExisting) {
+  //       _favoriteMeals.remove(meal);
+  //       isFavorite = false;
+  //     } else {
+  //       _favoriteMeals.add(meal);
+  //       isFavorite = true;
+  //     }
+  //   });
+  // }
 
   void _selectPage(int index) {
     setState(() {
@@ -50,7 +51,6 @@ class _TabsScreenState extends ConsumerState<TabsScreen> {
 
   void _setScreen(String identifier) async {
     Navigator.of(context).pop();
-
     if (identifier == "filters") {
       final result =
           await Navigator.of(context).push<Map<Filter, bool>>(MaterialPageRoute(
@@ -88,8 +88,9 @@ class _TabsScreenState extends ConsumerState<TabsScreen> {
     );
     var activePageTitle = 'Categories';
     if (_selectedPageIndex == 1) {
+      final favoriteMeals = ref.watch(favoriteMealsProvider);
       activePage = MealsScreen(
-        meals: _favoriteMeals,
+        meals: favoriteMeals,
         onToggleFavorite: _toggleMealFavoriteStatus,
         isFavorite: isFavorite,
       ); // don't set the title, title inside will not be displayed

@@ -3,13 +3,9 @@ import 'package:meals/models/meal.dart';
 import 'package:transparent_image/transparent_image.dart';
 
 class MealDetailsScreen extends StatefulWidget {
-  MealDetailsScreen(
-      {super.key,
-      required this.meal,
-      required this.onToggleFavorite,
-      required this.isFavorite});
+  MealDetailsScreen({super.key, required this.meal, required this.isFavorite});
   final Meal meal;
-  final Function(Meal meal) onToggleFavorite;
+
   bool isFavorite;
 
   @override
@@ -34,7 +30,6 @@ class _MealDetailsScreenState extends State<MealDetailsScreen> {
         actions: [
           IconButton(
               onPressed: () {
-                widget.onToggleFavorite(widget.meal);
                 setState(() {
                   widget.isFavorite = !widget.isFavorite;
                 });
