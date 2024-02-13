@@ -1,42 +1,33 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:meals/models/meal.dart';
+import 'package:meals/providers/favorites_provider.dart';
 import 'package:transparent_image/transparent_image.dart';
 
-class MealDetailsScreen extends StatefulWidget {
-  MealDetailsScreen({super.key, required this.meal, required this.isFavorite});
+class MealDetailsScreen extends ConsumerWidget {
+  MealDetailsScreen({
+    super.key,
+    required this.meal,
+  });
   final Meal meal;
 
-  bool isFavorite;
-
-  @override
-  State<MealDetailsScreen> createState() => _MealDetailsScreenState();
-}
-
-class _MealDetailsScreenState extends State<MealDetailsScreen> {
   // bool checkFavorite = false;
-
-  // @override
-  // void initState() {
-  //   super.initState();
-  //   checkFavorite = widget.isFavorite;
-  // }
-
   @override
-  Widget build(BuildContext context) {
-    debugPrint(" detail: MealDetailsScreen.isFavorite: ${widget.isFavorite}");
+  Widget build(BuildContext context, WidgetRef ref) {
+    final isFavorite = ref.watch(favoriteMealsProvider).contains(meal);
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.meal.title),
+        title: Text(meal.title),
         actions: [
           IconButton(
               onPressed: () {
-                setState(() {
-                  widget.isFavorite = !widget.isFavorite;
-                });
+                final wasAdded = ref
+                    .read(favoriteMealsProvider.notifier)
+                    .toggleMealFavoriteStatus(meal);
               },
               icon: Icon(
-                widget.isFavorite ? Icons.favorite : Icons.favorite_border,
-                color: widget.isFavorite ? Colors.red : null,
+                isFavorite ? Icons.favorite : Icons.favorite_border,
+                color: isFavorite ? Colors.red : Colors.grey,
               ))
         ],
       ),
@@ -45,7 +36,7 @@ class _MealDetailsScreenState extends State<MealDetailsScreen> {
           children: [
             FadeInImage(
               placeholder: MemoryImage(kTransparentImage),
-              image: NetworkImage(widget.meal.imageUrl),
+              image: NetworkImage(meal.imageUrl),
               fit: BoxFit.cover,
               height: 200,
               width: double.infinity,
@@ -58,7 +49,7 @@ class _MealDetailsScreenState extends State<MealDetailsScreen> {
                   fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 14),
-            for (final ingredient in widget.meal.ingredients)
+            for (final ingredient in meal.ingredients)
               Text(
                 ingredient,
                 style: Theme.of(context).textTheme.titleMedium!.copyWith(
@@ -72,7 +63,7 @@ class _MealDetailsScreenState extends State<MealDetailsScreen> {
                   fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 14),
-            for (final step in widget.meal.steps)
+            for (final step in meal.steps)
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: 12, vertical: 16),
                 child: Text(

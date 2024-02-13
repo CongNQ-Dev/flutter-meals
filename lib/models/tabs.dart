@@ -82,8 +82,6 @@ class _TabsScreenState extends ConsumerState<TabsScreen> {
       return true;
     }).toList();
     Widget activePage = CategoriesScreen(
-      onToggleFavorite: _toggleMealFavoriteStatus,
-      isFavorite: isFavorite,
       availableMeals: availableMeals,
     );
     var activePageTitle = 'Categories';
@@ -91,8 +89,6 @@ class _TabsScreenState extends ConsumerState<TabsScreen> {
       final favoriteMeals = ref.watch(favoriteMealsProvider);
       activePage = MealsScreen(
         meals: favoriteMeals,
-        onToggleFavorite: _toggleMealFavoriteStatus,
-        isFavorite: isFavorite,
       ); // don't set the title, title inside will not be displayed
       activePageTitle = 'Your Favorites';
     }
