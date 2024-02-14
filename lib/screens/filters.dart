@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:meals/providers/filters_provider.dart';
 import 'package:meals/screens/tabs.dart';
 import 'package:meals/widgets/main_drawer.dart';
 
 class FiltersScreen extends ConsumerStatefulWidget {
-  const FiltersScreen({super.key, required this.currentFilters});
-  final Map<Filter, bool> currentFilters;
+  const FiltersScreen({super.key});
+
   @override
   ConsumerState<FiltersScreen> createState() => _FiltersScreenState();
 }
@@ -21,10 +22,11 @@ class _FiltersScreenState extends ConsumerState<FiltersScreen> {
     // TODO: implement initState
     super.initState();
     setState(() {
-      _glutenFreeFilterSet = widget.currentFilters[Filter.glutenFree]!;
-      _lactoseFreeFilterSet = widget.currentFilters[Filter.lactoseFree]!;
-      _vegetarianFilterSet = widget.currentFilters[Filter.vegetarian]!;
-      _veganFilterSet = widget.currentFilters[Filter.vegan]!;
+      final acctiveFilters = ref.read(filtersProvider);
+      _glutenFreeFilterSet = acctiveFilters[Filter.glutenFree]!;
+      _lactoseFreeFilterSet = acctiveFilters[Filter.lactoseFree]!;
+      _vegetarianFilterSet = acctiveFilters[Filter.vegetarian]!;
+      _veganFilterSet = acctiveFilters[Filter.vegan]!;
     });
   }
 
@@ -44,15 +46,15 @@ class _FiltersScreenState extends ConsumerState<FiltersScreen> {
       //   },
       // ),
       body: PopScope(
-        canPop: false,
+        canPop: true,
         onPopInvoked: (bool didPop) {
-          if (didPop) return;
-          Navigator.of(context).pop({
+          ref.read(filtersProvider.notifier).setFilters({
             Filter.glutenFree: _glutenFreeFilterSet,
             Filter.lactoseFree: _lactoseFreeFilterSet,
             Filter.vegetarian: _vegetarianFilterSet,
             Filter.vegan: _veganFilterSet,
           });
+          if (didPop) return;
         },
         child: Column(
           children: [
